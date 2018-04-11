@@ -10,8 +10,8 @@ build:
         packages: maven
     - script:
         name: maven build
-        code: mvn clean assembly:assembly
+        code: mvn clean assembly:assembly; echo $WERCKER_OUTPUT_DIR
   after-steps:
     - script:
         name: look for output
-        code: ls -lhart $WERCKER_OUTPUT_DIR
+        code: pwd; echo $WERCKER_OUTPUT_DIR; ls -lhart $WERCKER_OUTPUT_DIR
