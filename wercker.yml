@@ -10,8 +10,8 @@ build:
         packages: maven
     - script:
         name: maven build
-        code: mvn clean assembly:assembly; echo $WERCKER_OUTPUT_DIR
-  after-steps:
-    - script:
-        name: look for output
-        code: pwd; cd $WERCKER_OUTPUT_DIR; ls -lhart; pwd;
+        code: |
+          mvn clean assembly:assembly
+          echo {"memory": "1G", "instances": "1"} > minapp.json
+          curl -i -X POST -u $USERNAME:PASSWORD -H "X-ID-TENANT-NAME:$TENANT" -H "Content-Type: multipart/form-data" -F "name=TwitterFeed" -F "runtime=java" -F "subscription=Hourly" -F "deployment=@minapp.json"
+        
