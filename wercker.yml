@@ -25,10 +25,11 @@ deploy:
         code: |
           echo {"memory": "1G", "instances": "1"} > minapp.json
           if(( $(curl -i -X GET -u $USERNAME:$PASSWORD -H "X-ID-TENANT-NAME:$TENANT" https://apaas.us.oraclecloud.com/paas/service/apaas/api/v1.1/apps/$TENANT/$APPNAME | grep -c "webURL" ) > 0 )); 
-          then printf "Application TwitterFeed Found"; 
-          else printf "No TwitterFeed Found"; fi
-          #curl -i -X POST -u $USERNAME:$PASSWORD -H "X-ID-TENANT-NAME:$TENANT" -H "Content-Type: multipart/form-data" -F "archiveURL=_apaas/twitterfeed.zip" -F "name=$APPNAME" -F "runtime=java" -F "subscription=Hourly" -F "deployment=@minapp.json" https://apaas.us.oraclecloud.com/paas/service/apaas/api/v1.1/apps/$TENANT
-          #curl -i -X PUT -u $USERNAME:$PASSWORD -H "X-ID-TENANT-NAME:$TENANT" -H "Content-Type: multipart/form-data" -F "archiveURL=_apaas/twitterfeed.zip" -F "name=$APPNAME" -F "runtime=java" -F "subscription=Hourly" -F "deployment=@minapp.json" https://apaas.us.oraclecloud.com/paas/service/apaas/api/v1.1/apps/$TENANT/$APPNAME
+          then printf "Application TwitterFeed Found"; curl -i -X PUT -u $USERNAME:$PASSWORD -H "X-ID-TENANT-NAME:$TENANT" -H "Content-Type: multipart/form-data" -F "archiveURL=_apaas/twitterfeed.zip" -F "name=$APPNAME" -F "runtime=java" -F "subscription=Hourly" -F "deployment=@minapp.json" https://apaas.us.oraclecloud.com/paas/service/apaas/api/v1.1/apps/$TENANT/$APPNAME;
+          else printf "No TwitterFeed Found"; curl -i -X POST -u $USERNAME:$PASSWORD -H "X-ID-TENANT-NAME:$TENANT" -H "Content-Type: multipart/form-data" -F "archiveURL=_apaas/twitterfeed.zip" -F "name=$APPNAME" -F "runtime=java" -F "subscription=Hourly" -F "deployment=@minapp.json" https://apaas.us.oraclecloud.com/paas/service/apaas/api/v1.1/apps/$TENANT; 
+          fi
+          #New Application: curl -i -X POST -u $USERNAME:$PASSWORD -H "X-ID-TENANT-NAME:$TENANT" -H "Content-Type: multipart/form-data" -F "archiveURL=_apaas/twitterfeed.zip" -F "name=$APPNAME" -F "runtime=java" -F "subscription=Hourly" -F "deployment=@minapp.json" https://apaas.us.oraclecloud.com/paas/service/apaas/api/v1.1/apps/$TENANT
+          #Update Application: curl -i -X PUT -u $USERNAME:$PASSWORD -H "X-ID-TENANT-NAME:$TENANT" -H "Content-Type: multipart/form-data" -F "archiveURL=_apaas/twitterfeed.zip" -F "name=$APPNAME" -F "runtime=java" -F "subscription=Hourly" -F "deployment=@minapp.json" https://apaas.us.oraclecloud.com/paas/service/apaas/api/v1.1/apps/$TENANT/$APPNAME
         
 verify:
   steps:
