@@ -24,7 +24,7 @@ deploy:
         name: deploy to accs
         code: |
           echo {"memory": "1G", "instances": "1"} > minapp.json
-          curl -i -X POST -u $USERNAME:$PASSWORD -H "X-ID-TENANT-NAME:$TENANT" -H "Content-Type: multipart/form-data" -F "archiveURL=_apaas/twitterfeed.zip" -F "name=$APPNAME" -F "runtime=java" -F "subscription=Hourly" -F "deployment=@minapp.json" https://apaas.us.oraclecloud.com/paas/service/apaas/api/v1.1/apps/$TENANT
+          curl -i -X PUT -u $USERNAME:$PASSWORD -H "X-ID-TENANT-NAME:$TENANT" -H "Content-Type: multipart/form-data" -F "archiveURL=_apaas/twitterfeed.zip" -F "name=$APPNAME" -F "runtime=java" -F "subscription=Hourly" -F "deployment=@minapp.json" https://apaas.us.oraclecloud.com/paas/service/apaas/api/v1.1/apps/$TENANT
         
 verify:
   steps:
