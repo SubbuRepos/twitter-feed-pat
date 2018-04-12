@@ -7,7 +7,7 @@ box:
 build:
   steps:
     - install-packages:
-        packages: maven
+        packages: maven jq
     - script:
         name: maven build
         code: |
@@ -15,6 +15,7 @@ build:
     - script:
         name: push to storage cloud
         code: |
+          jq --version
           curl -i -X PUT -u $USERNAME:$PASSWORD -T $WERCKER_ROOT/target/twitter-microservice-example-dist.zip https://derekoneil2.us.storage.oraclecloud.com/v1/Storage-derekoneil2/_apaas/twitterfeed.zip
           
 deploy:
@@ -25,3 +26,4 @@ deploy:
           echo {"memory": "1G", "instances": "1"} > minapp.json
           curl -i -X POST -u $USERNAME:$PASSWORD -H "X-ID-TENANT-NAME:$TENANT" -H "Content-Type: multipart/form-data" -F "archiveURL=_apaas/twitterfeed.zip" -F "name=TwitterFeed" -F "runtime=java" -F "subscription=Hourly" -F "deployment=@minapp.json" https://apaas.us.oraclecloud.com/paas/service/apaas/api/v1.1/apps/idcs-83a99963c3074b60bdff2d17f75d4303
         
+ 
