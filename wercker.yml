@@ -7,7 +7,7 @@ box:
 build:
   steps:
     - install-packages:
-        packages: maven jq
+        packages: maven
     - script:
         name: maven build
         code: |
@@ -15,7 +15,6 @@ build:
     - script:
         name: push to storage cloud
         code: |
-          jq --version
           curl -i -X PUT -u $USERNAME:$PASSWORD -T $WERCKER_ROOT/target/twitter-microservice-example-dist.zip https://$IDENTITY_DOMAIN.us.storage.oraclecloud.com/v1/Storage-$IDENTITY_DOMAIN/_apaas/twitterfeed.zip
           
 deploy:
